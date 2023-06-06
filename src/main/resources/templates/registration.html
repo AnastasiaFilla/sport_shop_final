@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+    <style>
+        .header-container {
+            display: flex;
+            justify-content: space-between; /* Adjusted to space between elements */
+            align-items: center;
+            padding: 20px;
+            background-color: #f2f2f2;
+        }
+        
+        .header-logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        
+        .header-form {
+            display: flex;
+        }
+        
+        .header-form button,
+        .header-form input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .header-form button:hover,
+        .header-form input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        button {
+          padding: 8px 16px;
+          font-size: 14px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+  
+        button:hover {
+          background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+  <div class="header-container">
+    <div class="header-logo">
+      <img src="/images/logo.png" alt="Logo">
+      <h3>Магазин Спортивных товаров</h3>
+    </div>
+    <div class="header-form">
+      <form method="get" action="/authentication">
+        <input type="submit" value="Главная страница">
+      </form>
+    </div>
+  </div>
+<h3>Регистрация</h3>
+<form method="post" th:actioin="@{/registration}" th:object="${person}">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    <label for="login">Введите логин: </label>
+    <input type="text" th:field="*{login}" id="login">
+    <div style="color: red" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></div>
+    <br>
+    <label for="password">Введите пароль: </label>
+    <input type="password" th:field="*{password}" id="password">
+    <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+    <br>
+    <button type="submit">Зарегистрироваться</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование заказа</title>
+    <style>
+        .header-container {
+            display: flex;
+            justify-content: space-between; /* Adjusted to space between elements */
+            align-items: center;
+            padding: 20px;
+            background-color: #f2f2f2;
+        }
+        
+        .header-logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        
+        .header-form {
+            display: flex;
+        }
+        
+        .header-form button,
+        .header-form input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .header-form button:hover,
+        .header-form input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        button {
+          padding: 8px 16px;
+          font-size: 14px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+  
+        button:hover {
+          background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+  <div class="header-container">
+    <div class="header-logo">
+      <img src="/images/logo.png" alt="Logo">
+      <h3>Магазин Спортивных товаров</h3>
+    </div>
+    <div class="header-form">
+      <form method="get" th:action="@{/admin}">
+          <button type="submit">Личный кабинет администратора</button>
+      </form>
+    </div>
+    <div class="header-form">
+      <form method="post" th:action="@{/logout}">
+        <button type="submit">Выйти из личного кабинета</button>
+      </form>
+    </div>
+  </div>
+<h3>Редактирование заказа</h3>
+<form th:method="POST" th:action="@{/admin/order/edit/{id}(id=${order.getId()})}">
+    <label for="status">Изменить статус заказа номер <span th:text="${order.getNumber()}"></span>?</label>
+    <select name="status" id="status">
+        <option value="Принят">Принят</option>
+        <option value="Оформлен">Оформлен</option>
+        <option value="Ожидает">Ожидает</option>
+        <option value="Получен">Получен</option>
+    </select>
+    <br>
+    <br>
+    <button type="submit">Редактировать</button>
+</form>
+</body>
+</html>

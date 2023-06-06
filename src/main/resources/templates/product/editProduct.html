@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование товара</title>
+    <style>
+        .header-container {
+            display: flex;
+            justify-content: space-between; /* Adjusted to space between elements */
+            align-items: center;
+            padding: 20px;
+            background-color: #f2f2f2;
+        }
+        
+        .header-logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        
+        .header-form {
+            display: flex;
+        }
+        
+        .header-form button,
+        .header-form input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .header-form button:hover,
+        .header-form input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        button {
+          padding: 8px 16px;
+          font-size: 14px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+  
+        button:hover {
+          background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+  <div class="header-container">
+    <div class="header-logo">
+      <img src="/images/logo.png" alt="Logo">
+      <h3>Магазин Спортивных товаров</h3>
+    </div>
+    <div class="header-form">
+      <form method="get" th:action="@{/admin}">
+          <button type="submit">Личный кабинет администратора</button>
+      </form>
+    </div>
+    <div class="header-form">
+      <form method="post" th:action="@{/logout}">
+        <button type="submit">Выйти из личного кабинета</button>
+      </form>
+    </div>
+  </div>
+<h3>Редактирование товара</h3>
+<form th:method="POST" th:action="@{/admin/product/edit/{id}(id=${product.getId()})}" th:object="${product}" enctype="multipart/form-data">
+    <label for="title">Введите наименование товара: </label>
+    <input type="text" th:field="*{title}" placeholder="Наименование" id="title">
+    <div style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+    <br>
+    <br>
+    <label for="description">Введите описание товара: </label>
+    <textarea th:field="*{description}" placeholder="Описание" id="description"></textarea>
+    <div style="color: red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+    <br>
+    <br>
+    <label for="price">Введите цену товара: </label>
+    <input type="number" th:field="*{price}" min="1" step="0.00" placeholder="Цена" id="price">
+    <div style="color: red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+    <br>
+    <br>
+    <label for="warehouse">Введите cклад, на котором расположен товар: </label>
+    <input type="text" th:field="*{warehouse}" placeholder="Cклад" id="warehouse">
+    <div style="color: red" th:if="${#fields.hasErrors('warehouse')}" th:errors="*{warehouse}"></div>
+    <br>
+    <br>
+    <label for="category">Выберите категорию товара: </label>
+    <select name="category" th:field="*{category}" id="category">
+        <div th:each="element : ${category}">
+            <option th:text="${element.getName()}" th:value="${element.getId()}">
+        </div>
+    </select>
+    <div style="color: red" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></div>
+    <br>
+    <br>
+    <label for="seller">Введите данные о продавце: </label>
+    <textarea th:field="*{seller}" placeholder="Продавец" id="seller"></textarea>
+    <div style="color: red" th:if="${#fields.hasErrors('seller')}" th:errors="*{seller}"></div>
+    <br>
+    <br>
+    <button type="submit">Редактировать</button>
+</form>
+</body>
+</html>

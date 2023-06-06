@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Личный кабинет администратора</title>
+    <style>
+      body {
+          font-family: Arial, sans-serif;
+      }
+      .header-container {
+          display: flex;
+          justify-content: space-between; /* Adjusted to space between elements */
+          align-items: center;
+          padding: 20px;
+          background-color: #f2f2f2;
+      }
+      
+      .header-logo {
+          display: flex;
+          align-items: center;
+      }
+      
+      .header-logo img {
+          height: 50px;
+          margin-right: 10px;
+      }
+      
+      .header-form {
+          display: flex;
+      }
+      
+      .header-form button,
+      .header-form input[type="submit"] {
+          padding: 10px 20px;
+          background-color: #4CAF50;
+          border: none;
+          color: white;
+          font-size: 16px;
+          cursor: pointer;
+          border-radius: 4px;
+          transition: background-color 0.3s;
+      }
+      
+      .header-form button:hover,
+      .header-form input[type="submit"]:hover {
+          background-color: #45a049;
+      }
+
+      h1 {
+          color: #333;
+      }
+      
+      form {
+          margin-bottom: 10px;
+      }
+      
+      button, input[type="submit"] {
+          padding: 8px 16px;
+          font-size: 14px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+      }
+      
+      button:hover, input[type="submit"]:hover {
+          background-color: #45a049;
+      }
+      
+      input[type="text"] {
+          padding: 4px 8px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+      }
+      
+      legend {
+          font-weight: bold;
+      }
+      
+      label {
+          display: inline-block;
+          width: 120px;
+      }
+      
+      hr {
+          border: none;
+          border-top: 1px solid #ccc;
+          margin: 20px 0;
+      }
+  
+      .product-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: around;
+      }
+      
+      .product-card {
+          width: calc(25% - 20px);
+          margin-bottom: 20px;
+          margin: 10px;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          text-align: left;
+      }
+      
+      .product-card img {
+          width: 100%;
+          height: auto;
+          margin-bottom: 10px;
+      }
+
+      .product-card a {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        font-size: 16px;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+      }
+  
+      .product-card a:hover {
+        background-color: #45a049;
+      }
+      
+      ul {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+      }
+      
+      ul li {
+          display: inline-block;
+          margin-right: 10px;
+      }
+      
+      ul li a {
+          display: inline-block;
+          padding: 8px 16px;
+          background-color: #4CAF50;
+          color: white;
+          text-decoration: none;
+          border-radius: 4px;
+      }
+      
+      ul li a:hover {
+          background-color: #45a049;
+      }
+      
+      .tab-content {
+          display: none;
+      }
+      
+      .tab-content.active {
+          display: block;
+      }
+    </style>
+    <script>
+        function showTab(tabId) {
+            var tabs = document.getElementsByClassName('tab-content');
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].style.display = 'none';
+            }
+            document.getElementById(tabId).style.display = 'block';
+        }
+    </script>
+</head>
+<body>
+  <div class="header-container">
+    <div class="header-logo">
+      <img src="/images/logo.png" alt="Logo">
+      <h3>Магазин Спортивных товаров</h3>
+    </div>
+    <div class="header-form">
+      <form method="get" th:action="@{/admin}">
+          <button type="submit">Личный кабинет администратора</button>
+      </form>
+    </div>
+    <div class="header-form">
+      <form method="get" th:action="@{/admin/product/add}">
+        <button type="submit">Добавить товар</button>
+      </form>
+    </div>
+    <div class="header-form">
+      <form method="post" th:action="@{/logout}">
+        <button type="submit">Выйти из личного кабинета</button>
+      </form>
+    </div>
+  </div>
+  <h1>Личный кабинет администратора</h1>
+  <hr>
+  <ul>
+    <li><a href="#" onclick="showTab('productTab'); return false;">Список товаров</a></li>
+    <li><a href="#" onclick="showTab('orderTab'); return false;">Список заказов</a></li>
+  </ul>
+  <div id="productTab" class="tab-content active">
+    <h3>Список товаров</h3>
+    <div class="product-container">
+      <div th:each="product : ${products}" class="product-card">
+        <h4 th:text="'Наименование: ' + ${product.getTitle()}"></h4>
+        <p th:text="'Описание: ' + ${product.getDescription()}"></p>
+        <p th:text="'Цена: ' + ${product.getPrice()}"></p>
+        <p th:text="'Cклад: ' + ${product.getWarehouse()}"></p>
+        <p th:text="'Продавец: ' + ${product.getSeller()}"></p>
+        <p th:text="'Категория: ' + ${product.getCategory().getName()}"></p>
+        <a th:href="@{/admin/product/edit/{id}(id=${product.getId()})}">Редактирование товара</a>
+        <a th:href="@{/admin/product/delete/{id}(id=${product.getId()})}">Удаление товара</a>
+      </div>
+    </div>
+  </div>
+  <div id="orderTab" class="tab-content">
+    <h3>Список заказов</h3>
+    <div class="product-container">
+      <div th:each="order : ${orders}" class="product-card">
+        <h4 th:text="'Номер Заказа: ' + ${order.getNumber()}"></h4>
+        <p th:text="'Продукт: ' + ${order.getProduct().getTitle()}"></p>
+        <p th:text="'Заказчик: ' + ${order.getPerson().getLogin()}"></p>
+        <p th:text="'Количество: ' + ${order.getCount()}"></p>
+        <p th:text="'Цена: ' + ${order.getPrice()}"></p>
+        <p th:text="'Статус Заказа: ' + ${order.getStatus()}"></p>
+        <a th:href="@{/admin/order/edit/{id}(id=${order.getId()})}">Редактирование заказа</a>
+        <a th:href="@{/admin/order/delete/{id}(id=${order.getId()})}">Удаление заказа</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
